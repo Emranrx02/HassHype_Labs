@@ -11,7 +11,7 @@ function CTA() {
         <p className="cta-note">Let's create something amazing together!</p>
 
         <a
-          href="https://t.me/HashHype"
+          href="https://t.me/emranrx"
           target="_blank"
           rel="noopener noreferrer"
           className="cta-button"
