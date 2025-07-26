@@ -10,7 +10,7 @@ import Team from './components/Team';
 import TrackRecord from './components/TrackRecord';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-
+import WorkedProjects from './components/WorkedProjects';
 
 function App() {
   return (
@@ -20,8 +20,9 @@ function App() {
       <AboutSection />
       <Services />
       <Benefits />
-      <TrackRecord />
       <Team />
+      <TrackRecord />
+      <WorkedProjects />
       <CTA />
       <Footer />
     </div>

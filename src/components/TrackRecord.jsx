@@ -2,7 +2,7 @@ import React from 'react';
 
 const TrackRecord = () => {
   return (
-    <div className="track-record-section">
+    <div className="track-record-section" id="TrackRecord">
       <h2>Our Track Record</h2>
       <div className="track-record-list">
         <div className="track-item">

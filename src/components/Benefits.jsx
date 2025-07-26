@@ -2,7 +2,7 @@ import React from 'react';
 
 function Benefits() {
   return (
-    <section className="benefits-section">
+    <section className="benefits-section" id ="Benefits">
       <h2>Key Benefits of Working With Us</h2>
       <div className="benefits-list">
         <div className="benefit-item">

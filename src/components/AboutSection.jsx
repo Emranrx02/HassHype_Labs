@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutSection = () => {
   return (
-    <section className="about-section">
+    <section className="about-section" id="about">
       <div className="about-container">
         <h2>Why Choose HashHype Labs?</h2>
         <ul className="about-list">
