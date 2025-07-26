@@ -434,39 +434,99 @@ a:hover {
   font-size: 0.95rem;
   color: #ddd;
 }
-
-/* ==== TEAM ==== */
+/* === Team Section === */
 .team-section {
-  padding: 60px 20px;
-  background-color: #111;
+  padding: 80px 20px;
+  background-color: #0a0a0a;
   text-align: center;
 }
-.team-section h2 {
+
+.section-title {
   font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: #12c99b;
-}
-.team-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-.team-member {
-  background: #1c1c1c;
-  padding: 20px;
-  width: 220px;
-  border-radius: 12px;
-}
-.team-member h4 {
-  margin: 10px 0 5px;
-}
-.team-member p {
-  margin: 0;
-  font-size: 14px;
-  color: #999;
+  color: #00ffae;
+  margin-bottom: 50px;
 }
 
+.team-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.team-member {
+  background: #121212;
+  border: 1px solid #1e1e1e;
+  border-radius: 12px;
+  padding: 30px 20px;
+  width: 280px;
+  box-shadow: 0 0 15px rgba(0, 255, 174, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px rgba(0, 255, 174, 0.2);
+}
+
+.team-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00ffae;
+  margin-bottom: 15px;
+}
+
+.team-member h4 {
+  font-size: 1.3rem;
+  color: #ffffff;
+  margin: 10px 0 5px;
+}
+
+.team-member p {
+  color: #cccccc;
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.team-role {
+  color: #00ffae;
+  font-weight: 500;
+}
+
+/* === Social Icons === */
+.team-socials {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.team-socials a img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+.team-socials a img:hover {
+  transform: scale(1.2);
+  filter: brightness(0) invert(1) drop-shadow(0 0 5px #00ffae);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .team-member {
+    width: 100%;
+    max-width: 320px;
+  }
+}
 /* ==== CONTACT / CTA ==== */
 .cta {
   background-color: #0f0f0f;
