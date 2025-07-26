@@ -396,43 +396,95 @@ a:hover {
   font-size: 0.95rem;
   color: #ccc;
 }
-
-/* ==== TRACK RECORD ==== */
+/* ==== TRACK RECORD SECTION ==== */
 .track-record-section {
   padding: 80px 20px;
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(145deg, #0d0d0d, #111111);
   text-align: center;
+  color: white;
 }
-.track-record-section h2 {
+
+.track-record-section .section-title {
   font-size: 2.5rem;
   margin-bottom: 50px;
   text-shadow: 0 0 10px rgba(18, 201, 155, 0.8);
+  font-weight: 700;
+  letter-spacing: 1px;
 }
+
+/* Track Card Container */
 .track-record-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
 }
+
+/* Each Card */
 .track-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(18, 201, 155, 0.15);
+  border-radius: 16px;
   padding: 25px 30px;
   width: 280px;
-  transition: 0.3s;
+  box-shadow: 0 0 12px rgba(18, 201, 155, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
+
 .track-item:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(18, 201, 155, 0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 0 28px rgba(18, 201, 155, 0.4);
 }
+
+/* Title inside card */
 .track-title {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: #12c99b;
+  color: #859994;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px rgba(18, 201, 155, 0.3);
 }
+
+/* Description inside card */
 .track-description {
   font-size: 0.95rem;
-  color: #ddd;
+  color: #eeeeee;
+  line-height: 1.5;
+}
+
+/* Optional Details */
+.track-details {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #bbbbbb;
+  animation: fadeIn 0.4s ease;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* AOS Scroll Fade */
+[data-aos] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+[data-aos].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
 }
 .team-section {
   padding: 80px 20px;

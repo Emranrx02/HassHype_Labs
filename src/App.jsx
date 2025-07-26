@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './style.css';
 
 import Hero from './components/Hero';
@@ -12,7 +12,14 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import WorkedProjects from './components/WorkedProjects';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 function App() {
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
     <div className="app">
       <Navbar />
