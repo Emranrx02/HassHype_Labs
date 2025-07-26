@@ -497,60 +497,71 @@ a:hover {
   padding: 80px 20px;
   background-color: #0e0e0e;
   text-align: center;
-  width: 100%;
 }
 
 .worked-title {
-  font-size: 2.2rem;
-  color: #00ffae;
-  margin-bottom: 50px;
+  font-size: 2.4rem;
+  color: #c7dad4;
+  margin-bottom: 20px;
 }
 
-/* === Double Logo Slider === */
+.worked-description {
+  color: #ccc;
+  font-size: 1rem;
+  max-width: 700px;
+  margin: 0 auto 50px;
+  line-height: 1.6;
+}
+
+/* Double Logo Slider */
 .double-slider {
   overflow: hidden;
+  position: relative;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  max-width: 100%;
-  margin: 0 auto 40px;
 }
 
-/* === Slider Rows === */
+/* Each row of logos */
 .slider-row {
   display: flex;
   gap: 40px;
   width: max-content;
-  padding: 10px 5vw;
-  white-space: nowrap;
+  padding: 15px 0;
+  animation-duration: 35s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-/* === Logo Styles === */
+/* Left to right */
+.row-left {
+  animation-name: scroll-left;
+}
+
+/* Right to left */
+.row-right {
+  animation-name: scroll-right;
+}
+
+/* Logo Styling */
 .slider-row img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
-  border-radius: 12px;
   background-color: #1a1a1a;
-  padding: 10px;
-  transition: transform 0.3s ease;
+  border-radius: 50%; /* cute circle */
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 255, 174, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .slider-row img:hover {
   transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 255, 174, 0.3);
 }
 
-/* === Animation for Rows === */
-.row-left {
-  animation: scroll-left 30s linear infinite;
-}
-
-.row-right {
-  animation: scroll-right 30s linear infinite;
-  animation-delay: 15s;
-}
-
-/* === Keyframes === */
+/* Animations */
 @keyframes scroll-left {
   0% {
     transform: translateX(0%);
@@ -569,9 +580,9 @@ a:hover {
   }
 }
 
-/* === CTA Button === */
+/* CTA Button */
 .worked-cta {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 .cta-button {
@@ -582,9 +593,10 @@ a:hover {
   font-weight: 600;
   border-radius: 30px;
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .cta-button:hover {
   background-color: #00e49f;
+  transform: scale(1.05);
 }

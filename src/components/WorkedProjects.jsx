@@ -12,7 +12,10 @@ const logos = [
 const WorkedProjects = () => {
   return (
     <section className="worked-projects">
-      <h2 className="worked-title">🚀 Projects We've Worked On</h2>
+      <h2 className="worked-title"> Projects We've Worked On</h2>
+      <p className="worked-description">
+        We have collaborated with a diverse range of clients, delivering innovative solutions that drive success. Here are some of the projects we've proudly contributed to:
+      </p>
 
       <div className="double-slider">
         {/* LEFT TO RIGHT */}
