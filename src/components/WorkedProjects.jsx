@@ -1,27 +1,44 @@
-// WorkedProjects.jsx
 import React from "react";
+
+const logos = [
+  "/assets/project1.jpg",
+  "/assets/project2.jpg",
+  "/assets/project3.jpg",
+  "/assets/project4.jpg",
+  "/assets/project5.jpg",
+  "/assets/project6.jpg",
+];
 
 const WorkedProjects = () => {
   return (
     <section className="worked-projects">
-      <div className="worked-container">
-        <div className="worked-logos">
-          <div className="logo-strip">
-            <img src="/assets/project1.jpg" alt="Project 1" />
-            <img src="/assets/project2.jpg" alt="Project 2" />
-            <img src="/assets/project3.jpg" alt="Project 3" />
-            <img src="/assets/project4.jpg" alt="Project 4" />
-            <img src="/assets/project5.jpg" alt="Project 5" />
-            <img src="/assets/project6.jpg" alt="Project 6" />
-            {/* Add more logos */}
-          </div>
+      <h2 className="worked-title">🚀 Projects We've Worked On</h2>
+
+      <div className="double-slider">
+        {/* LEFT TO RIGHT */}
+        <div className="slider-row row-left">
+          {[...logos, ...logos, ...logos].map((src, idx) => (
+            <img key={`left-${idx}`} src={src} alt={`Logo ${idx + 1}`} />
+          ))}
         </div>
 
-        <div className="worked-description">
-          <h2>Projects We've Worked On</h2>
-          <p>From DeFi to NFTs and launchpads — our team has delivered growth, engagement, and success for diverse Web3 projects.</p>
-          <a href="https://t.me/HashHype" target="_blank" className="cta-button">Build with Us</a>
+        {/* RIGHT TO LEFT */}
+        <div className="slider-row row-right">
+          {[...logos, ...logos, ...logos].map((src, idx) => (
+            <img key={`right-${idx}`} src={src} alt={`Logo ${idx + 1}`} />
+          ))}
         </div>
+      </div>
+
+      <div className="worked-cta">
+        <a
+          href="https://t.me/emranrx"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cta-button"
+        >
+          Build with Us
+        </a>
       </div>
     </section>
   );

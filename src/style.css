@@ -492,48 +492,66 @@ a:hover {
   padding: 20px 0;
   font-size: 14px;
 }
+/* === Worked Projects Section === */
 .worked-projects {
-  padding: 60px 20px;
-  background: #0f0f0f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 80px 20px;
+  background-color: #0e0e0e;
+  text-align: center;
+  width: 100%;
 }
 
-.worked-container {
-  max-width: 1200px;
+.worked-title {
+  font-size: 2.2rem;
+  color: #00ffae;
+  margin-bottom: 50px;
+}
+
+/* === Double Logo Slider === */
+.double-slider {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 100%;
+  margin: 0 auto 40px;
+}
+
+/* === Slider Rows === */
+.slider-row {
   display: flex;
   gap: 40px;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  width: max-content;
+  padding: 10px 5vw;
+  white-space: nowrap;
 }
 
-.worked-logos {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-  min-width: 300px;
-}
-
-.logo-strip {
-  display: flex;
-  gap: 20px;
-  animation: scrollLogos 20s linear infinite;
-}
-
-.logo-strip img {
+/* === Logo Styles === */
+.slider-row img {
   width: 80px;
-  height: auto;
-  opacity: 0.9;
-  transition: transform 0.3s;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 12px;
+  background-color: #1a1a1a;
+  padding: 10px;
+  transition: transform 0.3s ease;
 }
 
-.logo-strip img:hover {
+.slider-row img:hover {
   transform: scale(1.1);
 }
 
-@keyframes scrollLogos {
+/* === Animation for Rows === */
+.row-left {
+  animation: scroll-left 30s linear infinite;
+}
+
+.row-right {
+  animation: scroll-right 30s linear infinite;
+  animation-delay: 15s;
+}
+
+/* === Keyframes === */
+@keyframes scroll-left {
   0% {
     transform: translateX(0%);
   }
@@ -542,35 +560,31 @@ a:hover {
   }
 }
 
-.worked-description {
-  flex: 1;
-  color: #fff;
-  min-width: 300px;
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
-.worked-description h2 {
-  color: #00ffae;
-  font-size: 28px;
-  margin-bottom: 15px;
+/* === CTA Button === */
+.worked-cta {
+  margin-top: 40px;
 }
 
-.worked-description p {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.worked-description .cta-button {
-  padding: 12px 28px;
-  border: none;
+.cta-button {
+  display: inline-block;
   background-color: #00ffae;
   color: #000;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-block;
+  padding: 12px 28px;
+  font-weight: 600;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background-color 0.3s;
 }
 
-.worked-description .cta-button:hover {
-  background-color: #0affc2;
+.cta-button:hover {
+  background-color: #00e49f;
 }
