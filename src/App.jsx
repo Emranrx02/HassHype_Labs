@@ -11,6 +11,7 @@ import TrackRecord from './components/TrackRecord';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import WorkedProjects from './components/WorkedProjects';
+import ClientReview from './components/ClientReview';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -30,6 +31,7 @@ function App() {
       <Team />
       <TrackRecord />
       <WorkedProjects />
+      <ClientReview />
       <CTA />
       <Footer />
     </div>

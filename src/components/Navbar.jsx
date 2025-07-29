@@ -24,7 +24,7 @@ function Navbar() {
           <li><Link to="TrackRecord" smooth={true} duration={500} onClick={closeMenu}>Track records</Link></li>
           <li><Link to="Team" smooth={true} duration={500} onClick={closeMenu}>Team</Link></li>
           <li><Link to="Benefits" smooth={true} duration={500} onClick={closeMenu}>Benefits</Link></li>
-          <li><Link to="Process" smooth={true} duration={500} onClick={closeMenu}>How we proceed</Link></li>
+          <li><Link to="ClientReview" smooth={true} duration={500} onClick={closeMenu}>Our Client Reviews</Link></li>
 
         </ul>
 
