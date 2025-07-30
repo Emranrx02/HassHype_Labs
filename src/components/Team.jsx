@@ -47,6 +47,19 @@ function Team() {
             </a>
           </div>
         </div>
+
+        {/* === MD Neyamatullah === */}
+        <div className="team-member">
+          <img src="/assets/Neyamat.jpg" alt="MD Neyamatullah" className="team-img" />
+          <h4>MD Neyamatullah</h4>
+          <p>Community Manager </p>
+          <p>Fiverr Level 2 Seller</p>
+          <div className="team-socials">
+            <a href="https://t.me/Mtanvir338" target="_blank" rel="noreferrer">
+              <img src="/assets/telegramlogo.jpg" alt="Telegram Logo" />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );
