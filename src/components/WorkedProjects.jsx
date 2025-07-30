@@ -7,6 +7,8 @@ const logos = [
   "/assets/project4.jpg",
   "/assets/project5.jpg",
   "/assets/project6.jpg",
+  "/assets/project7.jpg",
+  
 ];
 
 const WorkedProjects = () => {

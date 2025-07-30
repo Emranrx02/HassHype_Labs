@@ -16,7 +16,7 @@ function Team() {
             <a href="https://t.me/emranrx" target="_blank" rel="noreferrer">
               <img src="/assets/telegramlogo.jpg" alt="Telegram Logo" />
             </a>
-            <a href="https://linkedin.com/in/emranhaque" target="_blank" rel="noreferrer">
+            <a href="https://linkedin.com/in/emranrx" target="_blank" rel="noreferrer">
               <img src="/assets/linkedin.jpg" alt="LinkedIn Logo" />
             </a>
           </div>
