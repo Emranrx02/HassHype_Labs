@@ -4,7 +4,7 @@ const reviews = [
   {
     name: "Denver",
     role: "Business Developer, Undeads Metaverse",
-    duration: "2 Months",
+    duration: "Running form 2 Months",
     project: "Undeads Metaverse",
     founder: "Denver",
     telegram: "https://t.me/undeadsmetaverse",
@@ -13,10 +13,22 @@ const reviews = [
     image: "/assets/undeads.jpg",
     stars: 5,
   },
+   {
+  name: "Cherle",
+  role: "WonderChain Marketing Team",
+  duration: "Running",
+  project: "WonderChain",
+  founder: "Hiden",
+  telegram: "https://t.me/WonderChain",
+  website: "https://www.wonderchain.net/",
+  text: "I was very satisfied. They understood and reflected my requests accurately, and communication was smooth throughout. They responded quickly to revision requests, which built trust. I definitely want to work together again on the next project. Highly recommended!",
+  image: "/assets/win.jpg", // Replace with appropriate avatar if needed
+  stars: 5
+},
   {
     name: "KOKO",
     role: "Project CEO, Trinity Labs",
-    duration: "3 Weeks",
+    duration: "Form 2023 to Present",
     project: "Trinity Labs",
     founder: "KOKO",
     telegram: "https://t.me/trinitylabs",
@@ -28,7 +40,7 @@ const reviews = [
   {
     name: "LF LABS",
     role: "Founder of FS LABS",
-    duration: "1.5 Months",
+    duration: "2 month to present",
     project: "FS LABS",
     founder: "LF LABS",
     telegram: "https://t.me/fslabs",
@@ -85,6 +97,9 @@ const reviews = [
     image: "/assets/shopidropship_logo.jpg",
     stars: 5,
   },
+ 
+
+
 ];
 
 const ClientReview = () => {
