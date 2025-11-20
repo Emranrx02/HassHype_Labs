@@ -17,7 +17,8 @@ body {
 }
 
 h1, h2, h3, h4 {
-  color: var(--primary);
+  color: #00ffae; /* Neon green for headings (matches About section) */
+  text-shadow: 0 0 10px rgba(0, 255, 174, 0.4);
 }
 
 a {
@@ -67,8 +68,8 @@ a:hover {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 25px;
-  color: #12c99b;
-  text-shadow: 0 0 10px rgba(18, 201, 155, 0.8);
+  color: #00ffae;
+  text-shadow: 0 0 12px rgba(0, 255, 174, 0.8);
   line-height: 1.3;
 }
 
@@ -274,6 +275,10 @@ a:hover {
   margin-bottom: 8px;
   color: #fff;
 }
+.benefit-title.highlight {
+  color: #00ffae;
+  text-shadow: 0 0 8px rgba(0, 255, 174, 0.4);
+}
 
 .benefit-description {
   font-size: 0.95rem;
@@ -344,15 +349,22 @@ a:hover {
 /* ==== ABOUT SECTION ==== */
 .about-section {
   padding: 80px 20px;
-  background-color: #0a0a0a;
+  background-color: #000; /* Full black for Web3 vibes */
+  color: #fff;
   text-align: center;
 }
 
 .about-title {
   font-size: 2.5rem;
   color: #00ffae;
+  margin-bottom: 12px;
+  text-shadow: 0 0 12px rgba(0, 255, 174, 0.4);
+}
+
+.about-subtitle {
+  font-size: 1rem;
+  color: #aaa;
   margin-bottom: 40px;
-  text-shadow: 0 0 10px rgba(0, 255, 174, 0.4);
 }
 
 .about-cards {
@@ -363,32 +375,31 @@ a:hover {
 }
 
 .about-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
-  padding: 25px 30px;
-  width: 280px;
-  box-shadow: 0 0 15px rgba(0, 255, 174, 0.05);
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  width: 300px;
+  transition: 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 255, 174, 0.1);
 }
 
 .about-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 25px rgba(0, 255, 174, 0.25);
+  transform: translateY(-5px);
   border-color: #00ffae;
+  box-shadow: 0 0 25px rgba(0, 255, 174, 0.3);
 }
 
 .about-card-title {
   font-size: 1.2rem;
-  color: #ffffff;
-  font-weight: 600;
-  margin-bottom: 12px;
+  color: #00ffae;
+  margin-bottom: 10px;
 }
 
 .about-card-description {
   font-size: 0.95rem;
   color: #ccc;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* ==== SERVICES ==== */
@@ -442,6 +453,10 @@ a:hover {
   margin-bottom: 10px;
   color: #fff;
 }
+.service-title.highlight {
+  color: #00ffae;
+  text-shadow: 0 0 8px rgba(0, 255, 174, 0.5);
+}
 .service-description {
   font-size: 14px;
   color: #ccc;
@@ -450,84 +465,102 @@ a:hover {
 /* ==== TRACK RECORD SECTION ==== */
 .track-record-section {
   padding: 80px 20px;
-  background: linear-gradient(145deg, #0d0d0d, #111111);
+  background: linear-gradient(145deg, #0d0d0d, #0f0f0f);
   text-align: center;
   color: white;
 }
 
 .track-record-section .section-title {
   font-size: 2.5rem;
-  margin-bottom: 50px;
-  text-shadow: 0 0 10px rgba(18, 201, 155, 0.8);
+  margin-bottom: 40px;
+  text-shadow: 0 0 16px rgba(0, 255, 174, 0.7);
   font-weight: 700;
   letter-spacing: 1px;
 }
 
 /* Track Card Container */
 .track-record-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 0 0;
 }
 
-/* Each Card */
+/* Each Card: boxed tile look */
 .track-item {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(18, 201, 155, 0.15);
-  border-radius: 16px;
-  padding: 25px 30px;
-  width: 280px;
-  box-shadow: 0 0 12px rgba(18, 201, 155, 0.08);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  background: #0b0b0b; /* solid dark box */
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 24px rgba(0, 255, 174, 0.03);
+  border-radius: 18px;
+  padding: 36px 30px;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
   position: relative;
-  overflow: hidden;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.track-item::before {
+  /* subtle inner highlight outline to match design */
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 16px;
+  box-shadow: inset 0 0 40px rgba(0, 255, 174, 0.02);
+  pointer-events: none;
 }
 
 .track-item:hover {
   transform: translateY(-6px);
-  box-shadow: 0 0 28px rgba(18, 201, 155, 0.4);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75), 0 0 40px rgba(0, 255, 174, 0.08);
 }
 
-/* Title inside card */
+/* Icon styling */
+.track-icon {
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.track-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
 .track-title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #859994;
+  font-size: 1.35rem;
+  font-weight: 800;
   margin-bottom: 10px;
-  text-shadow: 0 0 5px rgba(18, 201, 155, 0.3);
+  color: #fff;
+}
+.track-title.highlight {
+  color: #00ffae;
+  text-shadow: 0 0 16px rgba(0, 255, 174, 0.6);
 }
 
 /* Description inside card */
 .track-description {
-  font-size: 0.95rem;
-  color: #eeeeee;
-  line-height: 1.5;
+  font-size: 0.98rem;
+  color: #e8e8e8;
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
 /* Optional Details */
 .track-details {
-  margin-top: 15px;
+  margin-top: 14px;
   font-size: 0.9rem;
   color: #bbbbbb;
-  animation: fadeIn 0.4s ease;
 }
 
-/* Fade in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* AOS Scroll Fade */
+/* AOS Scroll Fade (keep existing animation behavior) */
 [data-aos] {
   opacity: 0;
   transform: translateY(20px);
@@ -536,6 +569,29 @@ a:hover {
 [data-aos].aos-animate {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Responsive tweaks for TrackRecord */
+@media (max-width: 980px) {
+  .track-record-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .track-record-list {
+    grid-template-columns: 1fr;
+  }
+  .track-item {
+    padding: 28px 22px;
+    min-height: unset; /* allow height to fit content */
+    gap: 8px;
+    border-radius: 16px;
+  }
+  .track-description {
+    max-width: 92%;
+    font-size: 1rem;
+  }
 }
 .team-section {
   padding: 80px 20px;
