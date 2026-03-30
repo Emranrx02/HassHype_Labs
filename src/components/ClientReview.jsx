@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 const reviews = [
   {
-    name: "Denver",
-    role: "Business Developer, Undeads Metaverse",
-    duration: "Running form 2 Months",
+    name: "Alex",
+    role: "Business Developer",
+    duration: "from November 2025 to March 2026",
     project: "Undeads Metaverse",
-    founder: "Denver",
+    founder: "Alex",
     telegram: "https://t.me/undeadsmetaverse",
     website: "https://undeads.com",
-    text: "We had a great experience working with HASHHYPELABS! Their chatter team delivered exactly the kind of organic and active engagement we were hoping for. Clean, professional, and on point.",
+    text: "Team good for community ",
     image: "/assets/undeads.jpg",
     stars: 5,
   },
