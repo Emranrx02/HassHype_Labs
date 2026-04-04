@@ -40,7 +40,7 @@ const reviews = [
   {
     name: "LF LABS",
     role: "Founder of FS LABS",
-    duration: "2 month to present",
+    duration: "1.5 years",
     project: "FS LABS",
     founder: "LF LABS",
     telegram: "https://t.me/fslabs",
