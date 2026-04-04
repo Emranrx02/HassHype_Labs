@@ -16,7 +16,7 @@ const reviews = [
    {
   name: "Cherle",
   role: "WonderChain Marketing Team",
-  duration: "Running",
+  duration: "From 2024 to Present and its ongoing",
   project: "WonderChain",
   founder: "Hiden",
   telegram: "https://t.me/WonderChain",
