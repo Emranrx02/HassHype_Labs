@@ -11,9 +11,9 @@ import Team from './components/Team';
 import TrackRecord from './components/TrackRecord';
 import WorkedProjects from './components/WorkedProjects';
 import ClientReview from './components/ClientReview';
-import Payment from './components/Payment';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import PaymentPage from './pages/PaymentPage';
 
 // AOS
 import AOS from 'aos';
@@ -27,6 +27,12 @@ function App() {
     });
   }, []);
 
+  const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+
+  if (currentPath === '/payment') {
+    return <PaymentPage />;
+  }
+
   return (
     <div className="app">
       <Navbar />
@@ -38,7 +44,6 @@ function App() {
       <TrackRecord />
       <WorkedProjects />
       <ClientReview />
-      <Payment />
       <CTA />
       <Footer />
     </div>
