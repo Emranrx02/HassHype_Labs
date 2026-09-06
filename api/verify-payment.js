@@ -5,15 +5,34 @@ const NETWORKS = {
   'ERC-20': {
     chainId: '1',
     usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    decimals: 6,
   },
   'BEP-20': {
     chainId: '56',
     usdt: '0x55d398326f99059ff775485246999027b3197955',
+    decimals: 18,
   },
 };
 
 function topicAddress(address) {
   return `0x${address.toLowerCase().replace(/^0x/, '').padStart(64, '0')}`;
+}
+
+function formatUnits(raw, decimals) {
+  const negative = raw < 0n;
+  const value = negative ? -raw : raw;
+  const base = 10n ** BigInt(decimals);
+  const whole = value / base;
+  const fraction = (value % base).toString().padStart(decimals, '0').replace(/0+$/, '');
+  return `${negative ? '-' : ''}${whole}${fraction ? `.${fraction}` : ''}`;
+}
+
+function parseUnits(value, decimals) {
+  const text = String(value).trim();
+  if (!/^\d+(\.\d+)?$/.test(text)) throw new Error('Invalid amount');
+  const [whole, fraction = ''] = text.split('.');
+  if (fraction.length > decimals) throw new Error('Too many decimal places');
+  return BigInt(whole) * (10n ** BigInt(decimals)) + BigInt((fraction + '0'.repeat(decimals)).slice(0, decimals));
 }
 
 export default async function handler(req, res) {
@@ -24,13 +43,18 @@ export default async function handler(req, res) {
     if (!/^0x[a-fA-F0-9]{64}$/.test(txid || '')) return res.status(400).json({ verified: false, message: 'Please enter a valid transaction hash.' });
     if (!NETWORKS[network]) return res.status(400).json({ verified: false, message: 'Unsupported network.' });
 
-    const expectedAmount = Number(amount);
-    if (!Number.isFinite(expectedAmount) || expectedAmount <= 0) return res.status(400).json({ verified: false, message: 'Invalid payment amount.' });
+    const config = NETWORKS[network];
+    let expectedRaw;
+    try {
+      expectedRaw = parseUnits(amount, config.decimals);
+      if (expectedRaw <= 0n) throw new Error('Invalid amount');
+    } catch {
+      return res.status(400).json({ verified: false, message: 'Invalid payment amount.' });
+    }
 
     const apiKey = process.env.ETHERSCAN_API_KEY;
     if (!apiKey) return res.status(500).json({ verified: false, message: 'Payment verifier is not configured yet.' });
 
-    const config = NETWORKS[network];
     const url = new URL('https://api.etherscan.io/v2/api');
     url.searchParams.set('chainid', config.chainId);
     url.searchParams.set('module', 'proxy');
@@ -42,7 +66,13 @@ export default async function handler(req, res) {
     const payload = await response.json();
     const receipt = payload?.result;
 
-    if (!receipt || typeof receipt !== 'object' || !receipt.blockNumber) return res.status(404).json({ verified: false, message: 'Transaction not found or still pending. Please wait for confirmation and try again.' });
+    if (!receipt || typeof receipt !== 'object' || !receipt.blockNumber) {
+      const apiMessage = payload?.result && typeof payload.result === 'string' ? payload.result : '';
+      if (/paid|plan|subscription|unsupported/i.test(apiMessage)) {
+        return res.status(503).json({ verified: false, message: `${network} verification is not available with the current blockchain API plan.` });
+      }
+      return res.status(404).json({ verified: false, message: 'Transaction not found or still pending. Please wait for confirmation and try again.' });
+    }
     if (receipt.status !== '0x1') return res.status(400).json({ verified: false, message: 'This transaction failed on-chain.' });
 
     const expectedRecipientTopic = topicAddress(RECEIVING_WALLET).toLowerCase();
@@ -54,10 +84,9 @@ export default async function handler(req, res) {
     if (!matchingTransfers.length) return res.status(400).json({ verified: false, message: `No USDT transfer to the HashHype Labs wallet was found in this ${network} transaction.` });
 
     const receivedRaw = matchingTransfers.reduce((sum, log) => sum + BigInt(log.data || '0x0'), 0n);
-    const received = Number(receivedRaw) / 1_000_000;
-    const tolerance = 0.000001;
-
-    if (received + tolerance < expectedAmount) return res.status(400).json({ verified: false, message: `Transaction found, but only ${received.toFixed(6)} USDT was sent. Expected at least ${expectedAmount} USDT.` });
+    if (receivedRaw < expectedRaw) {
+      return res.status(400).json({ verified: false, message: `Transaction found, but only ${formatUnits(receivedRaw, config.decimals)} USDT was sent. Expected at least ${amount} USDT.` });
+    }
 
     const blockUrl = new URL('https://api.etherscan.io/v2/api');
     blockUrl.searchParams.set('chainid', config.chainId);
@@ -70,7 +99,14 @@ export default async function handler(req, res) {
     const txBlock = parseInt(receipt.blockNumber, 16);
     const confirmations = latestBlock && txBlock ? Math.max(1, latestBlock - txBlock + 1) : 1;
 
-    return res.status(200).json({ verified: true, message: 'Payment verified successfully.', amount: received.toFixed(6).replace(/\.0+$/, ''), network, confirmations, txid });
+    return res.status(200).json({
+      verified: true,
+      message: 'Payment verified successfully.',
+      amount: formatUnits(receivedRaw, config.decimals),
+      network,
+      confirmations,
+      txid,
+    });
   } catch (error) {
     console.error('Payment verification error:', error);
     return res.status(500).json({ verified: false, message: 'Blockchain verification is temporarily unavailable. Please try again.' });
