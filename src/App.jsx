@@ -11,6 +11,7 @@ import Team from './components/Team';
 import TrackRecord from './components/TrackRecord';
 import WorkedProjects from './components/WorkedProjects';
 import ClientReview from './components/ClientReview';
+import Payment from './components/Payment';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
@@ -22,7 +23,7 @@ function App() {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      once: true, // Animates only once per element
+      once: true,
     });
   }, []);
 
@@ -37,6 +38,7 @@ function App() {
       <TrackRecord />
       <WorkedProjects />
       <ClientReview />
+      <Payment />
       <CTA />
       <Footer />
     </div>
