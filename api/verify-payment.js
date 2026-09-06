@@ -1,16 +1,19 @@
 const RECEIVING_WALLET = '0x1483393Cabbc486fe15B2fD067Bf91A41fc17a1a'.toLowerCase();
 const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+const BSC_RPC_URL = process.env.BSC_RPC_URL || 'https://bsc-dataseed.binance.org/';
 
 const NETWORKS = {
   'ERC-20': {
     chainId: '1',
     usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     decimals: 6,
+    provider: 'etherscan',
   },
   'BEP-20': {
     chainId: '56',
     usdt: '0x55d398326f99059ff775485246999027b3197955',
     decimals: 18,
+    provider: 'bsc-rpc',
   },
 };
 
@@ -35,6 +38,62 @@ function parseUnits(value, decimals) {
   return BigInt(whole) * (10n ** BigInt(decimals)) + BigInt((fraction + '0'.repeat(decimals)).slice(0, decimals));
 }
 
+async function rpcCall(method, params = []) {
+  const response = await fetch(BSC_RPC_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+  });
+
+  if (!response.ok) throw new Error(`BNB Chain RPC HTTP ${response.status}`);
+  const payload = await response.json();
+  if (payload.error) throw new Error(payload.error.message || 'BNB Chain RPC error');
+  return payload.result;
+}
+
+async function getBscReceipt(txid) {
+  return rpcCall('eth_getTransactionReceipt', [txid]);
+}
+
+async function getBscLatestBlock() {
+  return rpcCall('eth_blockNumber');
+}
+
+async function getErcReceipt(txid, apiKey) {
+  const url = new URL('https://api.etherscan.io/v2/api');
+  url.searchParams.set('chainid', '1');
+  url.searchParams.set('module', 'proxy');
+  url.searchParams.set('action', 'eth_getTransactionReceipt');
+  url.searchParams.set('txhash', txid);
+  url.searchParams.set('apikey', apiKey);
+
+  const response = await fetch(url);
+  const payload = await response.json();
+  const receipt = payload?.result;
+
+  if (!receipt || typeof receipt !== 'object') {
+    const apiMessage = typeof payload?.result === 'string' ? payload.result : '';
+    if (/paid|plan|subscription|unsupported/i.test(apiMessage)) {
+      const error = new Error('ERC-20 verification is not available with the current blockchain API plan.');
+      error.statusCode = 503;
+      throw error;
+    }
+  }
+
+  return receipt;
+}
+
+async function getErcLatestBlock(apiKey) {
+  const url = new URL('https://api.etherscan.io/v2/api');
+  url.searchParams.set('chainid', '1');
+  url.searchParams.set('module', 'proxy');
+  url.searchParams.set('action', 'eth_blockNumber');
+  url.searchParams.set('apikey', apiKey);
+  const response = await fetch(url);
+  const payload = await response.json();
+  return payload?.result || null;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ verified: false, message: 'Method not allowed.' });
 
@@ -52,52 +111,58 @@ export default async function handler(req, res) {
       return res.status(400).json({ verified: false, message: 'Invalid payment amount.' });
     }
 
-    const apiKey = process.env.ETHERSCAN_API_KEY;
-    if (!apiKey) return res.status(500).json({ verified: false, message: 'Payment verifier is not configured yet.' });
+    let receipt;
+    let latestBlockHex;
 
-    const url = new URL('https://api.etherscan.io/v2/api');
-    url.searchParams.set('chainid', config.chainId);
-    url.searchParams.set('module', 'proxy');
-    url.searchParams.set('action', 'eth_getTransactionReceipt');
-    url.searchParams.set('txhash', txid);
-    url.searchParams.set('apikey', apiKey);
-
-    const response = await fetch(url);
-    const payload = await response.json();
-    const receipt = payload?.result;
+    if (config.provider === 'bsc-rpc') {
+      [receipt, latestBlockHex] = await Promise.all([
+        getBscReceipt(txid),
+        getBscLatestBlock(),
+      ]);
+    } else {
+      const apiKey = process.env.ETHERSCAN_API_KEY;
+      if (!apiKey) return res.status(500).json({ verified: false, message: 'ERC-20 payment verifier is not configured yet.' });
+      [receipt, latestBlockHex] = await Promise.all([
+        getErcReceipt(txid, apiKey),
+        getErcLatestBlock(apiKey),
+      ]);
+    }
 
     if (!receipt || typeof receipt !== 'object' || !receipt.blockNumber) {
-      const apiMessage = payload?.result && typeof payload.result === 'string' ? payload.result : '';
-      if (/paid|plan|subscription|unsupported/i.test(apiMessage)) {
-        return res.status(503).json({ verified: false, message: `${network} verification is not available with the current blockchain API plan.` });
-      }
       return res.status(404).json({ verified: false, message: 'Transaction not found or still pending. Please wait for confirmation and try again.' });
     }
-    if (receipt.status !== '0x1') return res.status(400).json({ verified: false, message: 'This transaction failed on-chain.' });
+
+    if (receipt.status !== '0x1') {
+      return res.status(400).json({ verified: false, message: 'This transaction failed on-chain.' });
+    }
 
     const expectedRecipientTopic = topicAddress(RECEIVING_WALLET).toLowerCase();
     const matchingTransfers = (receipt.logs || []).filter((log) => {
       const topics = log.topics || [];
-      return log.address?.toLowerCase() === config.usdt && topics[0]?.toLowerCase() === TRANSFER_TOPIC && topics[2]?.toLowerCase() === expectedRecipientTopic;
+      return (
+        log.address?.toLowerCase() === config.usdt &&
+        topics[0]?.toLowerCase() === TRANSFER_TOPIC &&
+        topics[2]?.toLowerCase() === expectedRecipientTopic
+      );
     });
 
-    if (!matchingTransfers.length) return res.status(400).json({ verified: false, message: `No USDT transfer to the HashHype Labs wallet was found in this ${network} transaction.` });
+    if (!matchingTransfers.length) {
+      return res.status(400).json({ verified: false, message: `No USDT transfer to the HashHype Labs wallet was found in this ${network} transaction.` });
+    }
 
     const receivedRaw = matchingTransfers.reduce((sum, log) => sum + BigInt(log.data || '0x0'), 0n);
     if (receivedRaw < expectedRaw) {
-      return res.status(400).json({ verified: false, message: `Transaction found, but only ${formatUnits(receivedRaw, config.decimals)} USDT was sent. Expected at least ${amount} USDT.` });
+      return res.status(400).json({
+        verified: false,
+        message: `Transaction found, but only ${formatUnits(receivedRaw, config.decimals)} USDT was sent. Expected at least ${amount} USDT.`,
+      });
     }
 
-    const blockUrl = new URL('https://api.etherscan.io/v2/api');
-    blockUrl.searchParams.set('chainid', config.chainId);
-    blockUrl.searchParams.set('module', 'proxy');
-    blockUrl.searchParams.set('action', 'eth_blockNumber');
-    blockUrl.searchParams.set('apikey', apiKey);
-    const blockResponse = await fetch(blockUrl);
-    const blockPayload = await blockResponse.json();
-    const latestBlock = blockPayload?.result ? parseInt(blockPayload.result, 16) : null;
+    const latestBlock = latestBlockHex ? parseInt(latestBlockHex, 16) : null;
     const txBlock = parseInt(receipt.blockNumber, 16);
-    const confirmations = latestBlock && txBlock ? Math.max(1, latestBlock - txBlock + 1) : 1;
+    const confirmations = Number.isFinite(latestBlock) && Number.isFinite(txBlock)
+      ? Math.max(1, latestBlock - txBlock + 1)
+      : 1;
 
     return res.status(200).json({
       verified: true,
@@ -109,6 +174,9 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Payment verification error:', error);
-    return res.status(500).json({ verified: false, message: 'Blockchain verification is temporarily unavailable. Please try again.' });
+    return res.status(error.statusCode || 500).json({
+      verified: false,
+      message: error.statusCode ? error.message : 'Blockchain verification is temporarily unavailable. Please try again.',
+    });
   }
 }
