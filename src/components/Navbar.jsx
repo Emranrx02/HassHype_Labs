@@ -27,7 +27,7 @@ function Navbar() {
           <li><Link to="Team" smooth={true} duration={500} onClick={closeMenu}>Team</Link></li>
           <li><Link to="Benefits" smooth={true} duration={500} onClick={closeMenu}>Benefits</Link></li>
           <li><Link to="ClientReview" smooth={true} duration={500} onClick={closeMenu}>Reviews</Link></li>
-          <li><Link to="payment" smooth={true} duration={500} onClick={closeMenu} className="nav-payment-link">Pay / Invoice</Link></li>
+          <li><a href="/payment" onClick={closeMenu} className="nav-payment-link">Pay / Invoice</a></li>
         </ul>
 
         <Link to="contact" smooth={true} duration={500} onClick={closeMenu} className="talk-btn">
