@@ -11,6 +11,7 @@ function Payment() {
 
   const invoiceId = useMemo(() => `HHL-${new Date().getFullYear()}-${Date.now().toString().slice(-7)}`, []);
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=${encodeURIComponent(WALLET_ADDRESS)}`;
 
   const copyWallet = async () => {
     await navigator.clipboard.writeText(WALLET_ADDRESS);
@@ -53,6 +54,18 @@ function Payment() {
             <label className="payment-label">Select network</label>
             <div className="network-tabs">{['BEP-20', 'ERC-20'].map((item) => <button type="button" key={item} className={network === item ? 'network-tab active' : 'network-tab'} onClick={() => { setNetwork(item); setVerification({ status: 'idle', message: '', details: null }); }}>{item}</button>)}</div>
             <div className="wallet-box"><div><span className="payment-label">USDT {network} wallet</span><p>{WALLET_ADDRESS}</p></div><button type="button" className="copy-wallet-btn" onClick={copyWallet}>{copied ? 'Copied ✓' : 'Copy'}</button></div>
+
+            <div className="wallet-qr-wrap">
+              <div className="wallet-qr-card">
+                <img src={qrUrl} alt={`HashHype Labs USDT ${network} wallet QR code`} />
+              </div>
+              <div className="wallet-qr-copy">
+                <span className="payment-label">SCAN TO PAY</span>
+                <strong>USDT • {network}</strong>
+                <p>Open your wallet, scan this QR, then confirm the selected network before sending.</p>
+              </div>
+            </div>
+
             <div className="payment-warning"><span>!</span><p>Only send USDT using the selected network. The verifier checks the network, USDT contract, destination wallet, transaction success and amount.</p></div>
             <div className="payment-company"><div><span>Merchant</span><strong>HashHype Labs</strong></div><div><span>Website</span><strong>hashhypelabs.com</strong></div><div><span>Support</span><strong>@emranrx</strong></div><div><span>Receipt</span><strong>USD / USDT</strong></div></div>
           </div>
