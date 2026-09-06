@@ -22,7 +22,7 @@ const reviews = [
   telegram: "https://t.me/WonderChain",
   website: "https://www.wonderchain.net/",
   text: "I was very satisfied. They understood and reflected my requests accurately, and communication was smooth throughout. They responded quickly to revision requests, which built trust. I definitely want to work together again on the next project. Highly recommended!",
-  image: "/assets/win.jpg", // Replace with appropriate avatar if needed
+  image: "/assets/win.jpg",
   stars: 5
 },
   {
@@ -97,9 +97,6 @@ const reviews = [
     image: "/assets/shopidropship_logo.jpg",
     stars: 5,
   },
- 
-
-
 ];
 
 const ClientReview = () => {
@@ -123,6 +120,56 @@ const ClientReview = () => {
   return (
     <section className="client-review" id="ClientReview">
       <div className="testimonial-section">
+        <div
+          style={{
+            maxWidth: '760px',
+            margin: '0 auto 34px',
+            padding: '22px 24px',
+            borderRadius: '18px',
+            border: '1px solid rgba(0, 182, 122, 0.35)',
+            background: 'linear-gradient(135deg, rgba(0, 182, 122, 0.12), rgba(0, 255, 174, 0.035))',
+            boxShadow: '0 18px 50px rgba(0, 0, 0, 0.22)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '10px' }}>
+            <span
+              aria-hidden="true"
+              style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+                display: 'inline-grid',
+                placeItems: 'center',
+                background: '#00b67a',
+                color: '#fff',
+                fontSize: '20px',
+              }}
+            >
+              ★
+            </span>
+            <strong style={{ color: '#fff', fontSize: '1.2rem' }}>We’re on Trustpilot</strong>
+          </div>
+          <p style={{ color: '#b9c5c0', margin: '0 auto 15px', lineHeight: 1.6 }}>
+            Real client feedback matters. Explore our public profile and see what clients say about working with HashHype Labs.
+          </p>
+          <a
+            href="https://www.trustpilot.com/review/hashhypelabs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              padding: '10px 18px',
+              borderRadius: '999px',
+              background: '#00b67a',
+              color: '#07110d',
+              fontWeight: 800,
+              textDecoration: 'none',
+            }}
+          >
+            Read reviews on Trustpilot ↗
+          </a>
+        </div>
+
         <h2 className="testimonial-title">Happy & Satisfied Faces</h2>
         <p className="testimonial-subtitle">
           Here's what some of our satisfied clients say
