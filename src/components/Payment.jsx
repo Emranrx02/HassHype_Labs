@@ -7,6 +7,8 @@ function Payment() {
   const [network, setNetwork] = useState('BEP-20');
   const [copied, setCopied] = useState(false);
   const [verification, setVerification] = useState({ status: 'idle', message: '', details: null });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [verifiedTxid, setVerifiedTxid] = useState('');
   const [form, setForm] = useState({ name: '', email: '', project: '', service: '', amount: '', txid: '' });
 
   const invoiceId = useMemo(() => `HHL-${new Date().getFullYear()}-${Date.now().toString().slice(-7)}`, []);
@@ -19,19 +21,34 @@ function Payment() {
     setTimeout(() => setCopied(false), 1600);
   };
 
+  const extractTxid = (value) => {
+    const match = String(value || '').trim().match(/0x[a-fA-F0-9]{64}/);
+    return match ? match[0] : '';
+  };
+
   const submitPayment = async (e) => {
     e.preventDefault();
+
+    const txid = extractTxid(form.txid);
+    if (!txid) {
+      setVerification({ status: 'failed', message: 'Paste a valid TxID or a BscScan / Etherscan transaction URL.', details: null });
+      return;
+    }
+
     setVerification({ status: 'checking', message: 'Checking your transaction on the blockchain…', details: null });
 
     try {
       const response = await fetch('/api/verify-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, network, invoiceId }),
+        body: JSON.stringify({ ...form, txid, network, invoiceId }),
       });
       const data = await response.json();
       if (!response.ok || !data.verified) throw new Error(data.message || 'Payment could not be verified.');
+
+      setVerifiedTxid(txid);
       setVerification({ status: 'verified', message: 'Verified! Your USDT payment was found on-chain.', details: data });
+      setShowSuccess(true);
     } catch (error) {
       setVerification({ status: 'failed', message: error.message || 'Unable to verify this transaction.', details: null });
     }
@@ -39,13 +56,20 @@ function Payment() {
 
   const explorer = network === 'BEP-20' ? 'https://bscscan.com/tx/' : 'https://etherscan.io/tx/';
 
+  const finishPayment = () => {
+    setShowSuccess(false);
+    setVerification({ status: 'idle', message: '', details: null });
+    setForm({ name: '', email: '', project: '', service: '', amount: '', txid: '' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <section className="payment-section" id="payment">
       <div className="payment-shell" data-aos="fade-up">
         <div className="payment-heading">
           <span className="payment-kicker">HASHHYPE LABS • SECURE CHECKOUT</span>
           <h2>Pay HashHype Labs</h2>
-          <p>Pay with USDT, paste your TxID, and we will automatically verify the transfer on-chain.</p>
+          <p>Pay with USDT, then paste your TxID or transaction link. We will verify the payment automatically on-chain.</p>
         </div>
 
         <div className="payment-layout">
@@ -56,14 +80,8 @@ function Payment() {
             <div className="wallet-box"><div><span className="payment-label">USDT {network} wallet</span><p>{WALLET_ADDRESS}</p></div><button type="button" className="copy-wallet-btn" onClick={copyWallet}>{copied ? 'Copied ✓' : 'Copy'}</button></div>
 
             <div className="wallet-qr-wrap">
-              <div className="wallet-qr-card">
-                <img src={qrUrl} alt={`HashHype Labs USDT ${network} wallet QR code`} />
-              </div>
-              <div className="wallet-qr-copy">
-                <span className="payment-label">SCAN TO PAY</span>
-                <strong>USDT • {network}</strong>
-                <p>Open your wallet, scan this QR, then confirm the selected network before sending.</p>
-              </div>
+              <div className="wallet-qr-card"><img src={qrUrl} alt={`HashHype Labs USDT ${network} wallet QR code`} /></div>
+              <div className="wallet-qr-copy"><span className="payment-label">SCAN TO PAY</span><strong>USDT • {network}</strong><p>Open your wallet, scan this QR, then confirm the selected network before sending.</p></div>
             </div>
 
             <div className="payment-warning"><span>!</span><p>Only send USDT using the selected network. The verifier checks the network, USDT contract, destination wallet, transaction success and amount.</p></div>
@@ -76,20 +94,35 @@ function Payment() {
             <label>Project name<input name="project" value={form.project} onChange={update} placeholder="Project / company name" required /></label>
             <label>Service<select name="service" value={form.service} onChange={update} required><option value="">Choose a service</option><option>Community Management</option><option>Web3 Marketing & Growth</option><option>Influencer / KOL Marketing</option><option>Bot Development & Automation</option><option>Website Development</option><option>Content & Branding</option><option>Other / Custom Service</option></select></label>
             <div className="payment-field-grid"><label>Amount<div className="amount-input"><input name="amount" type="number" min="1" step="0.01" value={form.amount} onChange={update} placeholder="500" required /><span>USDT</span></div></label><label>Network<input value={network} readOnly /></label></div>
-            <label>Transaction Hash / TxID<input name="txid" value={form.txid} onChange={update} placeholder="0x…" pattern="0x[a-fA-F0-9]{64}" title="Enter a valid 66-character transaction hash" required /></label>
+            <label>Transaction Hash or Explorer URL<input name="txid" value={form.txid} onChange={update} placeholder={network === 'BEP-20' ? 'TxID or https://bscscan.com/tx/0x…' : 'TxID or https://etherscan.io/tx/0x…'} required /></label>
+            <p className="tx-help">You can paste the full BscScan / Etherscan transaction link — we will detect the TxID automatically.</p>
             <button className="payment-submit" type="submit" disabled={verification.status === 'checking'}>{verification.status === 'checking' ? 'Verifying on Blockchain…' : 'Verify My Payment →'}</button>
-            {verification.status !== 'idle' && <div className={`verification-message ${verification.status}`}><strong>{verification.status === 'verified' ? '✓ VERIFIED PAYMENT' : verification.status === 'checking' ? '⟳ VERIFYING' : '✕ NOT VERIFIED'}</strong><p>{verification.message}</p></div>}
+            {(verification.status === 'checking' || verification.status === 'failed') && <div className={`verification-message ${verification.status}`}><strong>{verification.status === 'checking' ? '⟳ VERIFYING' : '✕ NOT VERIFIED'}</strong><p>{verification.message}</p></div>}
           </form>
         </div>
-
-        {verification.status === 'verified' && <div className="invoice-preview verified-receipt" data-aos="zoom-in">
-          <div className="invoice-success">✓ VERIFIED ON BLOCKCHAIN</div>
-          <div className="invoice-header"><div><span>HASHHYPE LABS</span><h3>Payment Receipt</h3></div><div className="invoice-pending invoice-verified">PAID • VERIFIED</div></div>
-          <div className="invoice-grid"><div><span>Invoice ID</span><strong>{invoiceId}</strong></div><div><span>Client</span><strong>{form.name}</strong></div><div><span>Email</span><strong>{form.email}</strong></div><div><span>Project</span><strong>{form.project}</strong></div><div><span>Service</span><strong>{form.service}</strong></div><div><span>Amount Received</span><strong>{verification.details?.amount || form.amount} USDT</strong></div><div><span>Network</span><strong>{network}</strong></div><div><span>Confirmations</span><strong>{verification.details?.confirmations ?? 'Confirmed'}</strong></div></div>
-          <div className="invoice-tx"><span>Verified Transaction</span><p>{form.txid}</p><a href={`${explorer}${form.txid}`} target="_blank" rel="noopener noreferrer">View on block explorer ↗</a></div>
-          <p className="invoice-footer-text">This receipt was generated after validating the USDT transfer to the HashHype Labs receiving wallet.</p>
-        </div>}
       </div>
+
+      {showSuccess && (
+        <div className="payment-success-overlay" role="dialog" aria-modal="true" aria-label="Payment verified">
+          <div className="payment-success-modal">
+            <div className="success-check">✓</div>
+            <span className="success-kicker">PAYMENT VERIFIED</span>
+            <h3>Paid Successfully!</h3>
+            <p>Your USDT payment has been confirmed on the blockchain.</p>
+
+            <div className="success-payment-info">
+              <div><span>Amount</span><strong>{verification.details?.amount || form.amount} USDT</strong></div>
+              <div><span>Network</span><strong>{network}</strong></div>
+              <div><span>Project</span><strong>{form.project}</strong></div>
+              <div><span>Invoice</span><strong>{invoiceId}</strong></div>
+            </div>
+
+            <a className="success-explorer-link" href={`${explorer}${verifiedTxid}`} target="_blank" rel="noopener noreferrer">View verified transaction ↗</a>
+            <button type="button" className="success-done-btn" onClick={finishPayment}>Done</button>
+            <small>Thank you for choosing HashHype Labs.</small>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
