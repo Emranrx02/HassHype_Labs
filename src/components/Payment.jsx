@@ -9,6 +9,7 @@ function Payment() {
   const [verification, setVerification] = useState({ status: 'idle', message: '', details: null });
   const [showSuccess, setShowSuccess] = useState(false);
   const [verifiedTxid, setVerifiedTxid] = useState('');
+  const [emailStatus, setEmailStatus] = useState('idle');
   const [form, setForm] = useState({ name: '', email: '', project: '', service: '', amount: '', txid: '' });
 
   const invoiceId = useMemo(() => `HHL-${new Date().getFullYear()}-${Date.now().toString().slice(-7)}`, []);
@@ -26,6 +27,33 @@ function Payment() {
     return match ? match[0] : '';
   };
 
+  const emailReceipt = async ({ txid, details }) => {
+    setEmailStatus('sending');
+    try {
+      const response = await fetch('/api/send-receipt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          project: form.project,
+          service: form.service,
+          amount: details?.amount || form.amount,
+          network,
+          invoiceId,
+          txid,
+          explorerUrl: `${network === 'BEP-20' ? 'https://bscscan.com/tx/' : 'https://etherscan.io/tx/'}${txid}`,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.sent) throw new Error(data.message || 'Email not sent');
+      setEmailStatus('sent');
+    } catch (error) {
+      console.error('Receipt email error:', error);
+      setEmailStatus('failed');
+    }
+  };
+
   const submitPayment = async (e) => {
     e.preventDefault();
 
@@ -36,6 +64,7 @@ function Payment() {
     }
 
     setVerification({ status: 'checking', message: 'Checking your transaction on the blockchain…', details: null });
+    setEmailStatus('idle');
 
     try {
       const response = await fetch('/api/verify-payment', {
@@ -49,6 +78,7 @@ function Payment() {
       setVerifiedTxid(txid);
       setVerification({ status: 'verified', message: 'Verified! Your USDT payment was found on-chain.', details: data });
       setShowSuccess(true);
+      emailReceipt({ txid, details: data });
     } catch (error) {
       setVerification({ status: 'failed', message: error.message || 'Unable to verify this transaction.', details: null });
     }
@@ -56,9 +86,99 @@ function Payment() {
 
   const explorer = network === 'BEP-20' ? 'https://bscscan.com/tx/' : 'https://etherscan.io/tx/';
 
+  const downloadReceiptImage = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 1500;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#07100c';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    grad.addColorStop(0, '#00ffae');
+    grad.addColorStop(1, '#0aa77a');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, 18);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 54px Arial';
+    ctx.fillText('HashHype Labs', 90, 120);
+
+    ctx.fillStyle = '#00ffae';
+    ctx.font = '700 26px Arial';
+    ctx.fillText('BLOCKCHAIN PAYMENT RECEIPT', 90, 180);
+
+    ctx.fillStyle = '#0d1713';
+    ctx.strokeStyle = '#1d3b30';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(70, 240, 1060, 1040, 34);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#00ffae';
+    ctx.beginPath();
+    ctx.arc(150, 330, 42, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#062018';
+    ctx.font = '700 42px Arial';
+    ctx.fillText('✓', 132, 346);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 42px Arial';
+    ctx.fillText('PAID • VERIFIED', 220, 342);
+    ctx.fillStyle = '#9eb5ac';
+    ctx.font = '400 24px Arial';
+    ctx.fillText('Verified on blockchain by HashHype Labs', 220, 382);
+
+    const rows = [
+      ['Invoice ID', invoiceId],
+      ['Client', form.name],
+      ['Project', form.project],
+      ['Service', form.service],
+      ['Amount', `${verification.details?.amount || form.amount} USDT`],
+      ['Network', network],
+      ['Confirmations', String(verification.details?.confirmations ?? 'Confirmed')],
+    ];
+
+    let y = 470;
+    rows.forEach(([label, value]) => {
+      ctx.fillStyle = '#73877f';
+      ctx.font = '600 22px Arial';
+      ctx.fillText(label.toUpperCase(), 120, y);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 29px Arial';
+      ctx.fillText(String(value).slice(0, 52), 120, y + 40);
+      y += 105;
+    });
+
+    ctx.fillStyle = '#73877f';
+    ctx.font = '600 22px Arial';
+    ctx.fillText('TRANSACTION HASH', 120, y + 10);
+    ctx.fillStyle = '#d9e7e1';
+    ctx.font = '600 20px monospace';
+    const tx = verifiedTxid;
+    ctx.fillText(tx.slice(0, 46), 120, y + 50);
+    ctx.fillText(tx.slice(46), 120, y + 82);
+
+    ctx.fillStyle = '#7f938b';
+    ctx.font = '400 22px Arial';
+    ctx.fillText('hashhypelabs.com  •  @emranrx', 90, 1395);
+    ctx.fillStyle = '#00ffae';
+    ctx.font = '700 22px Arial';
+    ctx.fillText('Thank you for choosing HashHype Labs.', 90, 1440);
+
+    const link = document.createElement('a');
+    link.download = `${invoiceId}-HashHypeLabs-Receipt.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
   const finishPayment = () => {
     setShowSuccess(false);
     setVerification({ status: 'idle', message: '', details: null });
+    setEmailStatus('idle');
     setForm({ name: '', email: '', project: '', service: '', amount: '', txid: '' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -117,7 +237,14 @@ function Payment() {
               <div><span>Invoice</span><strong>{invoiceId}</strong></div>
             </div>
 
+            <div className={`receipt-email-state ${emailStatus}`}>
+              {emailStatus === 'sending' && 'Sending receipt to your email…'}
+              {emailStatus === 'sent' && `✓ Receipt emailed to ${form.email}`}
+              {emailStatus === 'failed' && 'Email receipt is not configured yet, but you can save the receipt below.'}
+            </div>
+
             <a className="success-explorer-link" href={`${explorer}${verifiedTxid}`} target="_blank" rel="noopener noreferrer">View verified transaction ↗</a>
+            <button type="button" className="save-receipt-btn" onClick={downloadReceiptImage}>↓ Save Receipt as Image</button>
             <button type="button" className="success-done-btn" onClick={finishPayment}>Done</button>
             <small>Thank you for choosing HashHype Labs.</small>
           </div>
