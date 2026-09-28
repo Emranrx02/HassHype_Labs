@@ -48,6 +48,14 @@ function Team() {
           </div>
         </div>
 
+        {/* === Md. Minto === */}
+        <div className="team-member">
+          <img src="/assets/minto.png" alt="Md. Minto" className="team-img" />
+          <h4>Md. Minto</h4>
+          <p>Ads Expert &amp; Growth</p>
+          <p>Fiverr Level One Seller</p>
+        </div>
+
         {/* === MD Neyamatullah === */}
         <div className="team-member">
           <img src="/assets/Neyamat.jpg" alt="MD Neyamatullah" className="team-img" />
