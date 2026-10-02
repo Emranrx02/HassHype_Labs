@@ -1,4 +1,4 @@
-const ADMIN_EMAIL = 'emran.huk2016@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_RECEIPT_EMAIL || 'emran.huk2016@gmail.com';
 
 function escapeHtml(value = '') {
   return String(value)
