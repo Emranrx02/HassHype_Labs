@@ -1,10 +1,26 @@
 
 :root {
   --primary: #12c99b;
+  --primary-dark: #0ea882;
   --background: #0f0f0f;
   --accent: #ff0054;
   --accent-hover: #e0004a;
   --text-light: #ffffff;
+  --text-muted: #ccc;
+  --text-soft: #aaa;
+  --surface: #111;
+  --surface-raised: #1a1a1a;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --font-xs: 0.9rem;
+  --font-sm: 0.95rem;
+  --font-base: 1rem;
+  --font-md: 1.1rem;
+  --font-lg: 1.2rem;
+  --font-xl: 1.5rem;
+  --font-section: 2.5rem;
 }
 
 /* BASE */
@@ -17,7 +33,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-  color: #00ffae; /* Neon green for headings (matches About section) */
+  color: #00ffae;
   text-shadow: 0 0 10px rgba(0, 255, 174, 0.4);
 }
 
@@ -37,7 +53,7 @@ a:hover {
   color: white;
   padding: 12px 24px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
@@ -80,7 +96,7 @@ a:hover {
 
 .hero-content p {
   font-size: 1.1rem;
-  color: #ddd;
+  color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 40px;
 }
@@ -90,8 +106,8 @@ a:hover {
   color: #fff;
   border: none;
   padding: 15px 30px;
-  font-size: 1rem;
-  border-radius: 30px;
+  font-size: var(--font-base);
+  border-radius: var(--radius-pill);
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -184,7 +200,7 @@ a:hover {
   background-color: var(--primary);
   color: white;
   padding: 10px 18px;
-  border-radius: 25px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
   transition: 0.3s ease;
   margin-left: 10px;
@@ -226,31 +242,32 @@ a:hover {
 }
 
 .benefits-title {
-  font-size: 2.5rem;
+  font-size: var(--font-section);
   color: #12c99b;
   margin-bottom: 10px;
   text-shadow: 0 0 10px rgba(18, 201, 155, 0.8);
 }
 
 .benefits-subtitle {
-  font-size: 1.1rem;
-  color: #bbb;
+  font-size: var(--font-md);
+  color: var(--text-muted);
   margin-bottom: 50px;
 }
 
 .benefits-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
   gap: 30px;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .benefit-item {
   background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   padding: 25px;
-  width: 280px;
+  min-height: 100%;
   transition: all 0.4s ease;
   box-shadow: 0 0 15px rgba(18, 201, 155, 0.05);
   text-align: center;
@@ -270,7 +287,7 @@ a:hover {
 }
 
 .benefit-title {
-  font-size: 1.2rem;
+  font-size: var(--font-lg);
   font-weight: bold;
   margin-bottom: 8px;
   color: #fff;
@@ -281,8 +298,8 @@ a:hover {
 }
 
 .benefit-description {
-  font-size: 0.95rem;
-  color: #ddd;
+  font-size: var(--font-sm);
+  color: var(--text-muted);
   line-height: 1.5;
 }
 
@@ -300,7 +317,7 @@ a:hover {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 40px 30px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   text-align: center;
   max-width: 600px;
   width: 100%;
@@ -318,33 +335,33 @@ a:hover {
 }
 
 .cta-card h2 {
-  font-size: 2.5rem;
+  font-size: var(--font-section);
   margin-bottom: 20px;
   color: #12c99b;
   text-shadow: 0 0 8px rgba(18, 201, 155, 0.6);
 }
 
 .cta-card p {
-  font-size: 1rem;
+  font-size: var(--font-base);
   margin: 10px 0;
-  color: #ddd;
+  color: var(--text-muted);
 }
 
 .cta-button {
   margin-top: 25px;
   display: inline-block;
-  background-color: #12c99b;
+  background-color: var(--accent);
   color: #fff;
   padding: 14px 28px;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   font-weight: bold;
   text-decoration: none;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cta-button:hover {
-  background-color: #0ea882;
-  box-shadow: 0 0 12px #12c99b;
+  background-color: var(--accent-hover);
+  box-shadow: 0 0 12px rgba(255, 0, 84, 0.45);
 }
 /* ==== ABOUT SECTION ==== */
 .about-section {
@@ -355,31 +372,31 @@ a:hover {
 }
 
 .about-title {
-  font-size: 2.5rem;
+  font-size: var(--font-section);
   color: #00ffae;
   margin-bottom: 12px;
   text-shadow: 0 0 12px rgba(0, 255, 174, 0.4);
 }
 
 .about-subtitle {
-  font-size: 1rem;
-  color: #aaa;
+  font-size: var(--font-base);
+  color: var(--text-soft);
   margin-bottom: 40px;
 }
 
 .about-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
   gap: 30px;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .about-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 24px;
-  width: 300px;
   transition: 0.3s ease;
   box-shadow: 0 0 20px rgba(0, 255, 174, 0.1);
 }
@@ -391,14 +408,14 @@ a:hover {
 }
 
 .about-card-title {
-  font-size: 1.2rem;
+  font-size: var(--font-lg);
   color: #00ffae;
   margin-bottom: 10px;
 }
 
 .about-card-description {
-  font-size: 0.95rem;
-  color: #ccc;
+  font-size: var(--font-sm);
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
@@ -410,28 +427,28 @@ a:hover {
 }
 
 .services-title {
-  font-size: 2.5rem;
+  font-size: var(--font-section);
   margin-bottom: 40px;
   color: #00ffae;
   text-shadow: 0 0 10px rgba(0, 255, 174, 0.5);
 }
 
 .services-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
   gap: 30px;
   list-style: none;
   padding: 0;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .service-item {
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 25px 30px;
-  width: 280px;
-  font-size: 16px;
+  font-size: var(--font-base);
   font-weight: 500;
   box-shadow: 0 0 15px rgba(0, 255, 174, 0.08);
   transition: all 0.3s ease;
@@ -444,12 +461,12 @@ a:hover {
 }
 
 .service-icon {
-  font-size: 28px;
+  font-size: 1.75rem;
   margin-bottom: 12px;
 }
 .service-title {
   font-weight: bold;
-  font-size: 18px;
+  font-size: var(--font-lg);
   margin-bottom: 10px;
   color: #fff;
 }
@@ -458,8 +475,8 @@ a:hover {
   text-shadow: 0 0 8px rgba(0, 255, 174, 0.5);
 }
 .service-description {
-  font-size: 14px;
-  color: #ccc;
+  font-size: var(--font-sm);
+  color: var(--text-muted);
   line-height: 1.5;
 }
 /* ==== TRACK RECORD SECTION ==== */
@@ -471,7 +488,7 @@ a:hover {
 }
 
 .track-record-section .section-title {
-  font-size: 2.5rem;
+  font-size: var(--font-section);
   margin-bottom: 40px;
   text-shadow: 0 0 16px rgba(0, 255, 174, 0.7);
   font-weight: 700;
@@ -493,7 +510,7 @@ a:hover {
   background: #0b0b0b; /* solid dark box */
   border: 1px solid rgba(255, 255, 255, 0.03);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 24px rgba(0, 255, 174, 0.03);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   padding: 36px 30px;
   transition: transform 0.28s ease, box-shadow 0.28s ease;
   position: relative;
@@ -511,7 +528,7 @@ a:hover {
   content: '';
   position: absolute;
   inset: 1px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   box-shadow: inset 0 0 40px rgba(0, 255, 174, 0.02);
   pointer-events: none;
 }
@@ -534,7 +551,7 @@ a:hover {
 }
 
 .track-title {
-  font-size: 1.35rem;
+  font-size: var(--font-xl);
   font-weight: 800;
   margin-bottom: 10px;
   color: #fff;
@@ -546,7 +563,7 @@ a:hover {
 
 /* Description inside card */
 .track-description {
-  font-size: 0.98rem;
+  font-size: var(--font-base);
   color: #e8e8e8;
   line-height: 1.6;
   max-width: 520px;
@@ -556,7 +573,7 @@ a:hover {
 /* Optional Details */
 .track-details {
   margin-top: 14px;
-  font-size: 0.9rem;
+  font-size: var(--font-xs);
   color: #bbbbbb;
 }
 
@@ -573,24 +590,30 @@ a:hover {
 
 /* Responsive tweaks for TrackRecord */
 @media (max-width: 980px) {
-  .track-record-list {
+  .track-record-list,
+  .about-cards,
+  .services-list,
+  .benefits-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 640px) {
-  .track-record-list {
+  .track-record-list,
+  .about-cards,
+  .services-list,
+  .benefits-list {
     grid-template-columns: 1fr;
   }
   .track-item {
     padding: 28px 22px;
     min-height: unset; /* allow height to fit content */
     gap: 8px;
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
   }
   .track-description {
     max-width: 92%;
-    font-size: 1rem;
+    font-size: var(--font-base);
   }
 }
 .team-section {
@@ -600,23 +623,23 @@ a:hover {
 }
 
 .section-title {
-  font-size: 2.2rem;
+  font-size: var(--font-section);
   color: #00ff99;
   margin-bottom: 40px;
 }
 
 .team-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
   gap: 40px;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .team-member {
   background-color: #1a1a1a;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   padding: 25px;
-  width: 250px;
   box-shadow: 0 0 20px rgba(0, 255, 153, 0.15);
   transition: transform 0.3s ease;
 }
@@ -634,14 +657,14 @@ a:hover {
   margin-bottom: 15px;
 }
 
-.team-member h4 {
-  font-size: 1.2rem;
+.team-member h3 {
+  font-size: var(--font-lg);
   margin: 10px 0 5px;
   color: #fff;
 }
 
 .team-member p {
-  color: #ccc;
+  color: var(--text-muted);
   margin: 5px 0;
 }
 
@@ -652,14 +675,24 @@ a:hover {
   gap: 12px;
 }
 
+.team-socials a {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  display: inline-grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .team-socials img {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
   filter: brightness(1.1);
   transition: transform 0.3s ease;
 }
 
-.team-socials img:hover {
+.team-socials a:hover img {
   transform: scale(1.2);
 }
 /* ==== CONTACT / CTA ==== */
@@ -669,14 +702,14 @@ a:hover {
   text-align: center;
 }
 .cta h2 {
-  font-size: 30px;
+  font-size: var(--font-section);
   margin-bottom: 10px;
   color: #12c99b;
 }
 .cta p {
-  font-size: 18px;
+  font-size: var(--font-lg);
   margin-bottom: 20px;
-  color: #ccc;
+  color: var(--text-muted);
 }
 
 /* ==== FOOTER ==== */
@@ -685,26 +718,26 @@ a:hover {
   color: #fff;
   text-align: center;
   padding: 20px 0;
-  font-size: 14px;
+  font-size: var(--font-sm);
 }
 /* === Worked Projects Section === */
 .worked-projects {
-  padding: 80px 20px;
+  padding: 90px 20px 100px;
   background-color: #0e0e0e;
   text-align: center;
 }
 
 .worked-title {
-  font-size: 2.4rem;
-  color: #c7dad4;
+  font-size: var(--font-section);
+  color: #00ffae;
   margin-bottom: 20px;
 }
 
 .worked-description {
-  color: #ccc;
-  font-size: 1rem;
+  color: var(--text-muted);
+  font-size: var(--font-base);
   max-width: 700px;
-  margin: 0 auto 50px;
+  margin: 0 auto 56px;
   line-height: 1.6;
 }
 
@@ -715,7 +748,8 @@ a:hover {
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 24px;
+  margin-bottom: 72px;
 }
 
 /* Each row of logos */
@@ -724,7 +758,7 @@ a:hover {
   gap: 40px;
   width: max-content;
   padding: 15px 0;
-  animation-duration: 35s;
+  animation-duration: 55s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -745,7 +779,7 @@ a:hover {
   height: 70px;
   object-fit: contain;
   background-color: #1a1a1a;
-  border-radius: 50%; /* cute circle */
+  border-radius: var(--radius-pill);
   padding: 8px;
   box-shadow: 0 4px 12px rgba(0, 255, 174, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -777,22 +811,22 @@ a:hover {
 
 /* CTA Button */
 .worked-cta {
-  margin-top: 50px;
+  margin-top: 0;
 }
 
 .cta-button {
   display: inline-block;
-  background-color: #00ffae;
-  color: #000;
+  background-color: var(--accent);
+  color: #fff;
   padding: 12px 28px;
   font-weight: 600;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   text-decoration: none;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .cta-button:hover {
-  background-color: #00e49f;
+  background-color: var(--accent-hover);
   transform: scale(1.05);
 }
 /* Client Review Section */
@@ -804,21 +838,21 @@ a:hover {
 }
 
 .testimonial-title {
-  font-size: 2.5rem;
+  font-size: var(--font-section);
   font-weight: 700;
   color: #00ffae;
   margin-bottom: 10px;
 }
 
 .testimonial-subtitle {
-  color: #ccc;
+  color: var(--text-muted);
   margin-bottom: 40px;
 }
 
 .testimonial-card {
   background: #111;
   padding: 40px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   max-width: 700px;
   margin: auto;
   position: relative;
@@ -834,27 +868,27 @@ a:hover {
 }
 
 .testimonial-name {
-  font-size: 1.5rem;
+  font-size: var(--font-xl);
   font-weight: bold;
   color: #fff;
   margin-bottom: 4px;
 }
 
 .testimonial-role {
-  font-size: 1rem;
-  color: #aaa;
+  font-size: var(--font-base);
+  color: var(--text-soft);
   margin-bottom: 20px;
 }
 
 .testimonial-stars {
-  font-size: 1.2rem;
+  font-size: var(--font-lg);
   color: gold;
   margin-bottom: 20px;
 }
 
 .testimonial-text {
-  font-size: 1.1rem;
-  color: #ddd;
+  font-size: var(--font-md);
+  color: var(--text-muted);
   margin-bottom: 30px;
   line-height: 1.6;
 }
@@ -864,7 +898,7 @@ a:hover {
   color: #000;
   border: none;
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin: 0 5px;
   font-weight: bold;
   cursor: pointer;
@@ -875,8 +909,8 @@ a:hover {
 .testimonial-card {
   background: rgba(20, 20, 20, 0.75);
   border: 1px solid rgba(0, 255, 174, 0.2);
-  border-radius: 20px;
-  padding: 40px 30px;
+  border-radius: var(--radius-lg);
+  padding: 40px 72px;
   max-width: 750px;
   margin: auto;
   box-shadow: 0 0 25px rgba(0, 255, 174, 0.15);
@@ -903,7 +937,7 @@ a:hover {
 }
 
 .testimonial-name {
-  font-size: 1.4rem;
+  font-size: var(--font-xl);
   font-weight: 600;
   color: #fff;
   margin-bottom: 4px;
@@ -911,8 +945,8 @@ a:hover {
 }
 
 .testimonial-role {
-  font-size: 1rem;
-  color: #ccc;
+  font-size: var(--font-base);
+  color: var(--text-muted);
   margin-bottom: 10px;
 }
 
@@ -922,8 +956,8 @@ a:hover {
 }
 
 .testimonial-project {
-  font-size: 0.95rem;
-  color: #ccc;
+  font-size: var(--font-sm);
+  color: var(--text-muted);
   margin-bottom: 12px;
 }
 
@@ -933,7 +967,7 @@ a:hover {
 
 .testimonial-links {
   margin-bottom: 18px;
-  font-size: 22px;
+  font-size: var(--font-xl);
 }
 
 .testimonial-links a {
@@ -949,24 +983,29 @@ a:hover {
 }
 
 .testimonial-stars {
-  font-size: 1.2rem;
+  font-size: var(--font-lg);
   color: gold;
   margin-bottom: 16px;
 }
 
 .testimonial-text {
-  font-size: 1.05rem;
+  font-size: var(--font-md);
   line-height: 1.6;
   color: #eee;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   font-style: italic;
   padding: 0 10px;
 }
 
 .testimonial-arrows {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  right: 18px;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .testimonial-arrows button {
@@ -974,14 +1013,39 @@ a:hover {
   color: #000;
   border: none;
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   font-weight: bold;
-  font-size: 16px;
+  font-size: var(--font-base);
   cursor: pointer;
   transition: 0.3s ease;
+  pointer-events: auto;
 }
 
 .testimonial-arrows button:hover {
   background-color: #ff007a;
   color: #fff;
+}
+
+@media (max-width: 980px) {
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-card {
+    padding: 32px 22px;
+  }
+
+  .testimonial-arrows {
+    position: static;
+    transform: none;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
 }
