@@ -9,15 +9,15 @@ function Team() {
         {/* === Emran === */}
         <div className="team-member">
           <img src="/assets/emran.jpg" alt="Emran Haque" className="team-img" />
-          <h4>Emran Haque</h4>
+          <h3>Emran Haque</h3>
           <p>Founder & CEO</p>
           <p>Fiverr Level 2 Seller</p>
           <div className="team-socials">
-            <a href="https://t.me/emranrx" target="_blank" rel="noreferrer">
-              <img src="/assets/telegramlogo.jpg" alt="Telegram Logo" />
+            <a href="https://t.me/emranrx" target="_blank" rel="noreferrer" aria-label="Message Emran Haque on Telegram">
+              <img src="/assets/telegramlogo.jpg" alt="" />
             </a>
-            <a href="https://linkedin.com/in/emranrx" target="_blank" rel="noreferrer">
-              <img src="/assets/linkedin.jpg" alt="LinkedIn Logo" />
+            <a href="https://linkedin.com/in/emranrx" target="_blank" rel="noreferrer" aria-label="View Emran Haque on LinkedIn">
+              <img src="/assets/linkedin.jpg" alt="" />
             </a>
           </div>
         </div>
@@ -25,12 +25,12 @@ function Team() {
         {/* === Mehedi === */}
         <div className="team-member">
           <img src="/assets/mehedi.jpg" alt="Mehedi Hasan" className="team-img" />
-          <h4>Mehedi Hasan</h4>
+          <h3>Mehedi Hasan</h3>
           <p>Community Manager & Telegram Bot Expert</p>
           <p>Fiverr Level 2 Seller</p>
           <div className="team-socials">
-            <a href="https://t.me/Mehedi_Rx" target="_blank" rel="noreferrer">
-              <img src="/assets/telegramlogo.jpg" alt="Telegram Logo" />
+            <a href="https://t.me/Mehedi_Rx" target="_blank" rel="noreferrer" aria-label="Message Mehedi Hasan on Telegram">
+              <img src="/assets/telegramlogo.jpg" alt="" />
             </a>
           </div>
         </div>
@@ -38,12 +38,12 @@ function Team() {
         {/* === Antor === */}
         <div className="team-member">
           <img src="/assets/antor.jpg" alt="Antor" className="team-img" />
-          <h4>Antor</h4>
+          <h3>Antor</h3>
           <p>Community & Business Developer</p>
           <p>Fiverr Pro Seller</p>
           <div className="team-socials">
-            <a href="https://t.me/antor_x" target="_blank" rel="noreferrer">
-              <img src="/assets/telegramlogo.jpg" alt="Telegram Logo" />
+            <a href="https://t.me/antor_x" target="_blank" rel="noreferrer" aria-label="Message Antor on Telegram">
+              <img src="/assets/telegramlogo.jpg" alt="" />
             </a>
           </div>
         </div>
@@ -51,7 +51,7 @@ function Team() {
         {/* === Md. Minto === */}
         <div className="team-member">
           <img src="/assets/minto.png" alt="Md. Minto" className="team-img" />
-          <h4>Md. Minto</h4>
+          <h3>Md. Minto</h3>
           <p>Ads Expert &amp; Growth</p>
           <p>Fiverr Level One Seller</p>
         </div>
@@ -59,12 +59,12 @@ function Team() {
         {/* === MD Neyamatullah === */}
         <div className="team-member">
           <img src="/assets/Neyamat.jpg" alt="MD Neyamatullah" className="team-img" />
-          <h4>MD Neyamatullah</h4>
+          <h3>MD Neyamatullah</h3>
           <p>Community Manager </p>
           <p>Fiverr Level 2 Seller</p>
           <div className="team-socials">
-            <a href="https://t.me/Mtanvir338" target="_blank" rel="noreferrer">
-              <img src="/assets/telegramlogo.jpg" alt="Telegram Logo" />
+            <a href="https://t.me/Mtanvir338" target="_blank" rel="noreferrer" aria-label="Message MD Neyamatullah on Telegram">
+              <img src="/assets/telegramlogo.jpg" alt="" />
             </a>
           </div>
         </div>
