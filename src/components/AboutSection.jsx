@@ -44,7 +44,7 @@ const AboutSection = () => {
               data-aos="zoom-in"
               data-aos-delay={index * 100}
             >
-              <h4 className="about-card-title">{item.title}</h4>
+              <h3 className="about-card-title">{item.title}</h3>
               <p className="about-card-description">{item.description}</p>
             </div>
           ))}
