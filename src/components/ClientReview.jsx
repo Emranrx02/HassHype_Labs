@@ -127,12 +127,15 @@ const ClientReview = () => {
           <p className="testimonial-role">{role} — <span>Duration:</span> {duration}</p>
           <div className="testimonial-project"><strong>Project:</strong> {project}</div>
           <div className="testimonial-links">
-            <a href={telegram} target="_blank" rel="noopener noreferrer">📩</a>
-            <a href={website} target="_blank" rel="noopener noreferrer">🌐</a>
+            <a href={telegram} target="_blank" rel="noopener noreferrer" aria-label={`Open ${project} Telegram`}>📩</a>
+            <a href={website} target="_blank" rel="noopener noreferrer" aria-label={`Open ${project} website`}>🌐</a>
           </div>
           <div className="testimonial-stars">{"⭐".repeat(stars)}</div>
           <p className="testimonial-text">“{text}”</p>
-          <div className="testimonial-arrows"><button onClick={handlePrev}>←</button><button onClick={handleNext}>→</button></div>
+          <div className="testimonial-arrows">
+            <button type="button" onClick={handlePrev} aria-label="Show previous testimonial">←</button>
+            <button type="button" onClick={handleNext} aria-label="Show next testimonial">→</button>
+          </div>
         </div>
       </div>
     </section>
