@@ -1,4 +1,5 @@
 import React from "react";
+import "./PRService.css";
 
 const services = [
 	{
@@ -173,6 +174,13 @@ function Services() {
 	return (
 		<section className="services-section" id="Services">
 			<h2 className="services-title">What We Offer</h2>
+			<article className="pr-service">
+				<div>
+					<h3>Web3 PR & Media Placements</h3>
+					<p>Get your launch in front of the right audience with crypto press releases, sponsored features, and creator campaigns.</p>
+				</div>
+				<a href="/services/web3-pr">Browse PR catalog</a>
+			</article>
 			<div className="services-list">
 						{services.map((item, index) => (
 							<div className="service-item" key={index}>

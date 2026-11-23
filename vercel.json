@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/payment", "destination": "/" }
+    { "source": "/payment", "destination": "/" },
+    { "source": "/services/web3-pr", "destination": "/" }
   ]
 }

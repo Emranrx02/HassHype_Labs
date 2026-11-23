@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import './style.css';
 
 // Components
@@ -19,6 +19,8 @@ import PaymentPage from './pages/PaymentPage';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+const PRCatalogPage = lazy(() => import('./pages/PRCatalogPage'));
+
 function App() {
   useEffect(() => {
     AOS.init({
@@ -28,6 +30,10 @@ function App() {
   }, []);
 
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+
+  if (currentPath === '/services/web3-pr') {
+    return <Suspense fallback={<p role="status">Loading the PR catalog…</p>}><PRCatalogPage /></Suspense>;
+  }
 
   if (currentPath === '/payment') {
     return <PaymentPage />;
